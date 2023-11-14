@@ -1540,7 +1540,7 @@ class MainWindow:
                         cache_path=PROVIDERS_PATH,
                     )
                     if self.x.auth_data != {}:
-                        print("XTREAM `{}` Loading Channels".format(provider.name))
+                        print(f"XTREAM `{provider.name}` Loading Channels")
                         # Save default cursor
                         current_cursor = self.window.get_window().get_cursor()
                         # Set waiting cursor

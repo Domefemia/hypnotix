@@ -146,9 +146,7 @@ class Group:
         elif "Live":
             self.group_type = TV_GROUP
         else:
-            print("Unrecognized stream type `{}` for `{}`".format(
-                stream_type, group_info
-            ))
+            print(f"Unrecognized stream type `{stream_type}` for `{group_info}`")
 
         self.name = group_info["category_name"]
 
@@ -349,24 +347,24 @@ class XTream:
         else:
             regex = re.compile(keyword)
 
-        print("Checking {} movies".format(len(self.movies)))
+        print(f"Checking {len(self.movies)} movies")
         for stream in self.movies:
             if re.match(regex, stream.name) is not None:
                 search_result.append(stream.export_json())
 
-        print("Checking {} channels".format(len(self.channels)))
+        print(f"Checking {len(self.channels)} channels")
         for stream in self.channels:
             if re.match(regex, stream.name) is not None:
                 search_result.append(stream.export_json())
 
-        print("Checking {} series".format(len(self.series)))
+        print(f"Checking {len(self.series)} series")
         for stream in self.series:
             if re.match(regex, stream.name) is not None:
                 search_result.append(stream.export_json())
 
         if return_type == "JSON":
             if search_result is not None:
-                print("Found {} results `{}`".format(len(search_result), keyword))
+                print(f"Found {len(search_result)} results `{keyword}`")
                 return json.dumps(search_result, ensure_ascii=False)
         else:
             return search_result
@@ -643,7 +641,7 @@ class XTream:
                                     )
 
                                 if new_channel.group_id == "9999":
-                                    print(" - xEverythingElse Channel -> {} - {}".format(new_channel.name,new_channel.stream_type))
+                                    print(f" - xEverythingElse Channel -> {new_channel.name} - {new_channel.stream_type}")
 
                                 # Save the new channel to the local list of channels
                                 if loading_stream_type == self.live_type:
@@ -660,15 +658,15 @@ class XTream:
                                     else:
                                         the_group.series.append(new_series)
                                 else:
-                                    print(" - Group not found `{}`".format(stream_channel["name"]))
+                                    print(f' - Group not found `{stream_channel["name"]}`')
 
                         # Print information of which streams have been skipped
                         if self.hide_adult_content:
-                            print(" - Skipped {} adult {} streams".format(skipped_adult_content, loading_stream_type))
+                            print(f" - Skipped {skipped_adult_content} adult {loading_stream_type} streams")
                         if skipped_no_name_content > 0:
-                            print(" - Skipped {} unprintable {} streams".format(skipped_no_name_content, loading_stream_type))
+                            print(f" - Skipped {skipped_no_name_content} unprintable {loading_stream_type} streams")
                     else:
-                        print(" - Could not load {} Streams".format(loading_stream_type))
+                        print(f" - Could not load {loading_stream_type} Streams")
 
                     self.state["loaded"] = True
 

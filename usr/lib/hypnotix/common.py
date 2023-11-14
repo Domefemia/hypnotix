@@ -57,7 +57,7 @@ class Provider:
         self.series = []
 
     def get_info(self):
-        return "%s:::%s:::%s:::%s:::%s:::%s" % (self.name, self.type_id, self.url, self.username, self.password, self.epg)
+        return f"{self.name}:::{self.type_id}:::{self.url}:::{self.username}:::{self.password}:::{self.epg}"
 
 
 class Group:
@@ -129,11 +129,11 @@ class Channel:
                     provider_name = "favorites"
                 else:
                     provider_name = provider.name
-                self.logo_path = os.path.join(PROVIDERS_PATH, "%s-%s%s" % (slugify(provider_name), slugify(self.name), ext))
+                self.logo_path = os.path.join(PROVIDERS_PATH, f"{slugify(provider_name)}-{slugify(self.name)}{ext}")
 
 class Manager:
     def __init__(self, settings):
-        os.system("mkdir -p '%s'" % PROVIDERS_PATH)
+        os.system(f"mkdir -p '{PROVIDERS_PATH}'")
         self.verbose = False
         self.settings = settings
 
@@ -214,9 +214,9 @@ class Manager:
                 content = file.read()
                 if "#EXTM3U" in content and "#EXTINF" in content:
                     legit = True
-                    self.debug("Content looks legit: %s" % provider.name)
+                    self.debug(f"Content looks legit: {provider.name}")
                 else:
-                    self.debug("Nope: %s" % provider.path)
+                    self.debug(f"Nope: {provider.path}")
         return legit
 
     def load_channels(self, provider):

@@ -852,65 +852,65 @@ class XTream:
 
     ## URL-builder methods
     def get_authenticate_URL(self):
-        URL = "%s/player_api.php?username=%s&password=%s" % (self.server, self.username, self.password)
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}"
         return URL
 
     def get_live_categories_URL(self):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s" % (self.server, self.username, self.password, "get_live_categories")
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_live_categories"
         return URL
 
     def get_live_streams_URL(self):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s" % (self.server, self.username, self.password, "get_live_streams")
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_live_streams"
         return URL
 
     def get_live_streams_URL_by_category(self, category_id):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s&category_id=%s" % (self.server, self.username, self.password, "get_live_streams", category_id)
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_live_streams&category_id={category_id}"
         return URL
 
     def get_vod_cat_URL(self):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s" % (self.server, self.username, self.password, "get_vod_categories")
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_vod_categories"
         return URL
 
     def get_vod_streams_URL(self):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s" % (self.server, self.username, self.password, "get_vod_streams")
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_vod_streams"
         return URL
 
     def get_vod_streams_URL_by_category(self, category_id):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s&category_id=%s" % (self.server, self.username, self.password, "get_vod_streams", category_id)
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_vod_streams&category_id={category_id}"
         return URL
 
     def get_series_cat_URL(self):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s" % (self.server, self.username, self.password, "get_series_categories")
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_series_categories"
         return URL
 
     def get_series_URL(self):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s" % (self.server, self.username, self.password, "get_series")
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_series"
         return URL
 
     def get_series_URL_by_category(self, category_id):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s&category_id=%s" % (self.server, self.username, self.password, "get_series", category_id)
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_series&category_id={category_id}"
         return URL
 
     def get_series_info_URL_by_ID(self, series_id):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s&series_id=%s" % (self.server, self.username, self.password, "get_series_info", series_id)
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_series_info&series_id={series_id}"
         return URL
 
     def get_VOD_info_URL_by_ID(self, vod_id):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s&vod_id=%s" % (self.server, self.username, self.password, "get_vod_info", vod_id)
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_vod_info&vod_id={vod_id}"
         return URL
 
     def get_live_epg_URL_by_stream(self, stream_id):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s&stream_id=%s" % (self.server, self.username, self.password, "get_short_epg", stream_id)
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_short_epg&stream_id={stream_id}"
         return URL
 
     def get_live_epg_URL_by_stream_and_limit(self, stream_id, limit):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s&stream_id=%s&limit=%s" % (self.server, self.username, self.password, "get_short_epg", stream_id, limit)
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_short_epg&stream_id={stream_id}&limit={limit}"
         return URL
 
     def get_all_live_epg_URL_by_stream(self, stream_id):
-        URL = "%s/player_api.php?username=%s&password=%s&action=%s&stream_id=%s" % (self.server, self.username, self.password, "get_simple_data_table", stream_id)
+        URL = f"{self.server}/player_api.php?username={self.username}&password={self.password}&action=get_simple_data_table&stream_id={stream_id}"
         return URL
 
     def get_all_epg_URL(self):
-        URL = "%s/xmltv.php?username=%s&password=%s" % (self.server, self.username, self.password)
+        URL = f"{self.server}/xmltv.php?username={self.username}&password={self.password}"
         return URL

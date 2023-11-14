@@ -211,7 +211,7 @@ class MpvRenderParam(Structure):
 
     def __init__(self, name, value=None):
         if name not in self.TYPES:
-            raise ValueError('unknown render param type "{}"'.format(name))
+            raise ValueError(f'unknown render param type "{name}"')
         self.type_id, cons = self.TYPES[name]
         if cons is None:
             self.value = None
@@ -356,7 +356,7 @@ class MpvNode(Structure):
             elif fmt == MpvFormat.BYTE_ARRAY:
                 return v.byte_array.contents.bytes_value()
             else:
-                raise TypeError('Unknown MPV node format {}. Please submit a bug report.'.format(fmt))
+                raise TypeError(f'Unknown MPV node format {fmt}. Please submit a bug report.')
 
 class MpvNodeUnion(Union):
     _fields_ = [('string', c_char_p),
@@ -597,7 +597,7 @@ def _mpv_coax_proptype(value, proptype=str):
     elif proptype in (str, int, float):
         return str(proptype(value)).encode('utf-8')
     else:
-        raise TypeError('Cannot coax value of type {} into property type {}'.format(type(value), proptype))
+        raise TypeError(f'Cannot coax value of type {type(value)} into property type {proptype}')
 
 def _make_node_str_list(pl):
     """Take a list of python objects and make a MPV string node array from it.
@@ -1096,8 +1096,7 @@ class MPV(object):
         from PIL import Image
         res = self.node_command('screenshot-raw', includes)
         if res['format'] != 'bgr0':
-            raise ValueError('Screenshot in unknown format "{}". Currently, only bgr0 is supported.'
-                    .format(res['format']))
+            raise ValueError(f'Screenshot in unknown format "{res["format"]}". Currently, only bgr0 is supported.')
         img = Image.frombytes('RGBA', (res['stride']//4, res['h']), res['data'])
         b,g,r,a = img.split()
         return Image.merge('RGB', (r,g,b))
@@ -1144,7 +1143,7 @@ class MPV(object):
 
     @staticmethod
     def _encode_options(options):
-        return ','.join('{}={}'.format(_py_to_mpv(str(key)), str(val)) for key, val in options.items())
+        return ','.join(f'{_py_to_mpv(str(key))}={str(val)}' for key, val in options.items())
 
     def loadfile(self, filename, mode='replace', **options):
         """Mapped mpv loadfile command, see man mpv(1)."""
@@ -1541,9 +1540,9 @@ class MPV(object):
             self._key_binding_handlers[binding_name] = callback_or_cmd
             self.register_message_handler('key-binding', self._handle_key_binding_message)
             self.command('define-section',
-                    binding_name, '{} script-binding py_event_handler/{}'.format(keydef, binding_name), mode)
+                binding_name, f'{keydef} script-binding py_event_handler/{binding_name}',mode)
         elif isinstance(callback_or_cmd, str):
-            self.command('define-section', binding_name, '{} {}'.format(keydef, callback_or_cmd), mode)
+            self.command('define-section', binding_name, f'{keydef} {callback_or_cmd}', mode)
         else:
             raise TypeError('register_key_binding expects either an str with an mpv command or a python callable.')
         self.command('enable-section', binding_name, 'allow-hide-cursor+allow-vo-dragging')

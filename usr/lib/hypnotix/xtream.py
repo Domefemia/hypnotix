@@ -58,9 +58,7 @@ class Channel:
             stream_type = "live"
 
         if stream_type != "live" and stream_type != "movie":
-            print("Error the channel has unknown stream type `{}`\n`{}`".format(
-                stream_type, stream_info
-            ))
+            print(f"Error the channel has unknown stream type `{stream_type}`\n`{stream_info}`")
         else:
             # Raw JSON Channel
             self.raw = stream_info
@@ -109,7 +107,7 @@ class Channel:
 
             # Check that the constructed URL is valid
             if not xtream._validate_url(self.url):
-                print("{} - Bad URL? `{}`".format(self.name, self.url))
+                print(f"{self.name} - Bad URL? `{self.url}`")
 
     def export_json(self):
         jsondata = {}
@@ -194,7 +192,7 @@ class Episode:
 
         # Check that the constructed URL is valid
         if not xtream._validate_url(self.url):
-            print("{} - Bad URL? `{}`".format(self.name, self.url))
+            print(f"{self.name} - Bad URL? `{self.url}`")
 
 
 class Serie:
@@ -414,10 +412,8 @@ class XTream:
             if not self._validate_url(logo_url):
                 logo_url = None
             else:
-                local_logo_path = osp.join(self.cache_path, "{}-{}".format(
-                    self._slugify(self.name),
-                    self._slugify(osp.split(logo_url)[-1])
-                )
+                local_logo_path = osp.join(self.cache_path, 
+                f"{self._slugify(self.name)}-{self._slugify(osp.split(logo_url)[-1])}"
                 )
         return local_logo_path
 
@@ -439,10 +435,10 @@ class XTream:
                     }
                     self.state["authenticated"] = True
                 else:
-                    print("Provider `{}` could not be loaded. Reason: `{} {}`".format(self.name, r.status_code, r.reason))
+                    print(f"Provider `{self.name}` could not be loaded. Reason: `{r.status_code} {r.reason}`")
             except requests.exceptions.ConnectionError:
                 # If connection refused
-                print("{} - Connection refused URL: {}".format(self.name, self.server))
+                print(f"{self.name} - Connection refused URL: {self.server}")
 
     def _load_from_file(self, filename) -> dict:
         """Try to load the dictionary from file
@@ -454,10 +450,9 @@ class XTream:
             dict: Dictionary if found and no errors, None if file does not exists
         """
         # Build the full path
-        full_filename = osp.join(self.cache_path, "{}-{}".format(
-                self._slugify(self.name),
-                filename
-        ))
+        full_filename = osp.join(
+            self.cache_path, f"{self._slugify(self.name)}-{filename}"
+        )
 
         if osp.isfile(full_filename):
 
@@ -476,9 +471,7 @@ class XTream:
                         if len(my_data) == 0:
                             my_data = None
                 except Exception as e:
-                    print(" - Could not load from file `{}`: e=`{}`".format(
-                        full_filename, e
-                    ))
+                    print(f" - Could not load from file `{full_filename}`: e=`{e}`")
             return my_data
         else:
             return None
@@ -498,19 +491,17 @@ class XTream:
         if data_list is not None:
 
             #Build the full path
-            full_filename = osp.join(self.cache_path, "{}-{}".format(
-                    self._slugify(self.name),
+            full_filename = osp.join(self.cache_path, 
+                    f"{self._slugify(self.name)}-{filename}",
                     filename
-            ))
+            )
             # If the path makes sense, save the file
             json_data = json.dumps(data_list, ensure_ascii=False)
             try:
                 with open(full_filename, mode="wt", encoding="utf-8") as myfile:
                     myfile.write(json_data)
             except Exception as e:
-                print(" - Could not save to file `{}`: e=`{}`".format(
-                    full_filename, e
-                ))
+                print(f" - Could not save to file `{full_filename}`: e=`{e}`")
                 return False
 
             return True
@@ -538,17 +529,13 @@ class XTream:
 
                     # Try loading local file
                     dt = 0
-                    all_cat = self._load_from_file("all_groups_{}.json".format(
-                        loading_stream_type
-                    ))
+                    all_cat = self._load_from_file(f"all_groups_{loading_stream_type}.json")
                     # If file empty or does not exists, download it from remote
                     if all_cat is None:
                         # Load all Groups and save file locally
                         start = timer()
                         all_cat = self._load_categories_from_provider(loading_stream_type)
-                        self._save_to_file(all_cat,"all_groups_{}.json".format(
-                            loading_stream_type
-                        ))
+                        self._save_to_file(all_cat, f"all_groups_{loading_stream_type}.json")
                         dt = timer() - start
 
                     # If we got the GROUPS data, show the statistics and load GROUPS
@@ -573,24 +560,20 @@ class XTream:
                         # Sort Categories
                         self.groups.sort(key=lambda x: x.name)
                     else:
-                        print(" - Could not load {} Groups".format(loading_stream_type))
+                        print(f" - Could not load {loading_stream_type} Groups")
                         break
 
                     ## Get Streams
 
                     # Try loading local file
                     dt = 0
-                    all_streams = self._load_from_file("all_stream_{}.json".format(
-                        loading_stream_type
-                    ))
+                    all_streams = self._load_from_file(f"all_stream_{loading_stream_type}.json")
                     # If file empty or does not exists, download it from remote
                     if all_streams is None:
                         # Load all Streams and save file locally
                         start = timer()
                         all_streams = self._load_streams_from_provider(loading_stream_type)
-                        self._save_to_file(all_streams,"all_stream_{}.json".format(
-                            loading_stream_type
-                        ))
+                        self._save_to_file(all_streams, f"all_stream_{loading_stream_type}.json")
                         dt = timer() - start
 
                     # If we got the STREAMS data, show the statistics and load Streams
@@ -620,7 +603,7 @@ class XTream:
                                         skipped_adult_content = skipped_adult_content + 1
                                         self._save_to_file_skipped_streams(stream_channel)
                                 except Exception:
-                                    print(" - Stream does not have `is_adult` key:\n\t`{}`".format(json.dumps(stream_channel)))
+                                    print(f" - Stream does not have `is_adult` key:\n\t`{json.dumps(stream_channel)}`")
                                     pass
 
                             if not skip_stream:
@@ -705,9 +688,7 @@ class XTream:
             with open(full_filename, mode="a", encoding="utf-8") as myfile:
                 myfile.writelines(json_data)
         except Exception as e:
-            print(" - Could not save to skipped stream file `{}`: e=`{}`".format(
-                full_filename, e
-            ))
+            print(f" - Could not save to skipped stream file `{full_filename}`: e=`{e}`")
             return False
 
     def get_series_info_by_id(self, get_series: dict):

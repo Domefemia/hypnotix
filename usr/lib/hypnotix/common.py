@@ -188,7 +188,7 @@ class Manager:
                             # Grab data by block_bytes
                             for data in response.iter_content(block_bytes,decode_unicode=True):
                                 downloaded_bytes += block_bytes
-                                print("{} bytes".format(downloaded_bytes))
+                                print(f"{downloaded_bytes} bytes")
                                 file.write(str(data))
                         if downloaded_bytes < total_content_size:
                             print("The file size is incorrect, deleting")
